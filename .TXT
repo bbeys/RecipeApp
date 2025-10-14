@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 please add your email and name
+=======
+
+>>>>>>> 03d0f65829042da01feaf57a95fdd3b36e09a779
