@@ -1,1 +1,1 @@
-# MentalHeathApp
+# MentalHealthApp
