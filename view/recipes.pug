@@ -1,0 +1,61 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width,initial-scale=1')
+    title Recipes
+    link(rel='stylesheet' href='/styles.css')
+  body
+    .container
+      header
+        h1 Recipes
+        a.button(href='/') ← Back to search
+
+      // show filter summary + share URL
+      if path
+        .filters
+          strong Filters:
+          |  #{Object.keys(query).length ? Object.entries(query).map(([k,v]) => `${k}=${Array.isArray(v)?v.join(','):v}`).join(' • ') : 'None (showing all recipes)'}
+          button#copyBtn(type='button' title='Copy link to clipboard') Copy this search URL
+          span#copyFeedback.hidden ✅ copied
+
+      section.recipes
+        if recipes && recipes.length
+          each recipe in recipes
+            article.card(data-id=recipe.id)
+              // favorite star
+              button.fav-btn(type='button' title='Toggle favorite' data-id=recipe.id class=(locals.user && Array.isArray(locals.user.favorites) && locals.user.favorites.indexOf(recipe.id) !== -1 ? 'favorited' : ''))
+                | ★
+              
+              article.card-body
+                h2.card-title= recipe.title
+                .meta
+                if recipe.prepTime
+                  span.badge Prep: #{recipe.prepTime}
+                if recipe.cuisine
+                  span.badge Cuisine: #{Array.isArray(recipe.cuisine) ? recipe.cuisine.join(', ') : recipe.cuisine}
+                if recipe.mealType
+                  span.badge Meal Type: #{Array.isArray(recipe.mealType) ? recipe.mealType.join(', ') : recipe.mealType}
+
+              if recipe.ingredients
+                p
+                  strong Ingredients:
+                  span.chips
+                    each ing in recipe.ingredients
+                      span.chip= ing
+
+              if recipe.dietary
+                p
+                  strong Dietary:
+                  span.diet
+                    each d in (Array.isArray(recipe.dietary) ? recipe.dietary : [recipe.dietary])
+                      span.badge= d
+
+              if recipe.instructions
+                details
+                  summary Instructions
+                  p= recipe.instructions
+        else
+          p.no-results No recipes found for that filter configuration.
+
+    script(src='/js/recipes.js')

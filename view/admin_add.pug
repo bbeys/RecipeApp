@@ -1,0 +1,31 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    title Add recipe
+    link(rel='stylesheet' href='/styles.css')
+  body
+    .container
+      header
+        h1 Add recipe (Admin)
+        a.button(href='/') ← Back to search
+
+      if error
+        p.error= error
+
+      form(action='/admin/add-recipe' method='post')
+        label Title
+          input(type='text' name='title' required)
+        label Ingredients (comma separated)
+          input(type='text' name='ingredients')
+        label Dietary (comma separated)
+          input(type='text' name='dietary')
+        label Meal Type (comma separated)
+          input(type='text' name='mealType')
+        label Cuisine (comma separated)
+          input(type='text' name='cuisine')
+        label PrepTime
+          input(type='text' name='prepTime')
+        label Instructions
+          textarea(name='instructions')
+        button(type='submit') Create recipe
