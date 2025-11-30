@@ -6,9 +6,7 @@
     "password": "adminpass",
     "role": "admin",
     "avatar": "",
-    "favorites": [
-      2
-    ]
+    "favorites": []
   },
   {
     "id": 2,
@@ -19,7 +17,8 @@
     "avatar": "",
     "favorites": [
       1,
-      3
+      3,
+      6
     ]
   }
 ]
