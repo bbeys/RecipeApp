@@ -1,23 +1,3 @@
-// Copy the current page full URL into the clipboard
-;(function () {
-  const btn = document.getElementById('copyBtn');
-  const feedback = document.getElementById('copyFeedback');
-  if (!btn) return;
-
-  btn.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      if (feedback) {
-        feedback.classList.remove('hidden');
-        setTimeout(() => feedback.classList.add('hidden'), 2000);
-      }
-    } catch (err) {
-      // fallback: show the URL in prompt
-      window.prompt('Copy this URL', window.location.href);
-    }
-  });
-})();
-
 // favorite toggle handler
 ;(function () {
   document.addEventListener('click', async (e) => {
