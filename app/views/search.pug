@@ -13,7 +13,10 @@ block content
   // Hello message at the top center
   if locals.user
     .greeting-container(style='text-align: center; margin: 2rem 0; font-size: 1.5rem; font-weight: bold;')
-      | Hello #{locals.user.name}
+      if locals.user.role === 'admin'
+        | Hello #{locals.user.name} Admin
+      else
+        | Hello #{locals.user.name}
 
   // For admins: don't show suggested or the search controls — show admin summary only
   if locals.user && locals.user.role === 'admin'

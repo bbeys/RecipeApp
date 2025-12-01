@@ -20,7 +20,7 @@ class User {
             // If role is specified, query the appropriate table directly
             if (role === 'admin') {
                 [rows] = await db.query(
-                    'SELECT admin_id as id, SUBSTRING_INDEX(email, "@", 1) as name, email, password_hash as password, "admin" as role FROM ADMIN WHERE admin_id = ?',
+                    'SELECT admin_id as id, CONCAT(UPPER(LEFT(SUBSTRING_INDEX(email, "@", 1), 1)), LOWER(SUBSTRING(SUBSTRING_INDEX(email, "@", 1), 2))) as name, email, password_hash as password, "admin" as role FROM ADMIN WHERE admin_id = ?',
                     [this.id]
                 );
             } else if (role === 'user') {
@@ -38,7 +38,7 @@ class User {
                 // If not found, try ADMIN table
                 if (!rows || rows.length === 0) {
                     [rows] = await db.query(
-                        'SELECT admin_id as id, SUBSTRING_INDEX(email, "@", 1) as name, email, password_hash as password, "admin" as role FROM ADMIN WHERE admin_id = ?',
+                        'SELECT admin_id as id, CONCAT(UPPER(LEFT(SUBSTRING_INDEX(email, "@", 1), 1)), LOWER(SUBSTRING(SUBSTRING_INDEX(email, "@", 1), 2))) as name, email, password_hash as password, "admin" as role FROM ADMIN WHERE admin_id = ?',
                         [this.id]
                     );
                 }
@@ -112,7 +112,7 @@ async function getAllUsers() {
         `SELECT user_id as id, CONCAT(first_name, " ", last_name) as name, email, password_hash as password, "user" as role 
          FROM USERS 
          UNION 
-         SELECT admin_id as id, SUBSTRING_INDEX(email, "@", 1) as name, email, password_hash as password, "admin" as role 
+         SELECT admin_id as id, CONCAT(UPPER(LEFT(SUBSTRING_INDEX(email, "@", 1), 1)), LOWER(SUBSTRING(SUBSTRING_INDEX(email, "@", 1), 2))) as name, email, password_hash as password, "admin" as role 
          FROM ADMIN`
     );
     
@@ -137,7 +137,7 @@ async function findUserByEmail(email) {
     
     if (!rows || rows.length === 0) {
         [rows] = await db.query(
-            'SELECT admin_id as id, SUBSTRING_INDEX(email, "@", 1) as name, email, password_hash as password, "admin" as role FROM ADMIN WHERE email = ?',
+            'SELECT admin_id as id, CONCAT(UPPER(LEFT(SUBSTRING_INDEX(email, "@", 1), 1)), LOWER(SUBSTRING(SUBSTRING_INDEX(email, "@", 1), 2))) as name, email, password_hash as password, "admin" as role FROM ADMIN WHERE email = ?',
             [email]
         );
     }
