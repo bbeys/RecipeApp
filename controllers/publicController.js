@@ -1,4 +1,4 @@
-const recipesModel = require('../models/recipes');
+const { getAllRecipes } = require('../models/recipe');
 
 function uniq(arr = []) {
   return Array.from(new Set(arr.filter(Boolean)));
@@ -12,8 +12,8 @@ function asArray(v) {
   return Array.isArray(v) ? v : (typeof v === 'undefined' ? [] : [v]);
 }
 
-exports.home = (req, res) => {
-  const recipes = recipesModel.readAll();
+exports.home = async (req, res) => {
+  const recipes = await getAllRecipes();
   const allIngredients = uniq(recipes.flatMap(r => r.ingredients || [])).sort((a,b) => a.localeCompare(b));
   const allDietary = uniq(recipes.flatMap(r => (Array.isArray(r.dietary) ? r.dietary : [r.dietary]).filter(Boolean))).sort((a,b) => a.localeCompare(b));
   const allMealTypes = uniq(recipes.flatMap(r => (Array.isArray(r.mealType) ? r.mealType : [r.mealType]).filter(Boolean))).sort((a,b) => a.localeCompare(b));
@@ -32,8 +32,8 @@ exports.home = (req, res) => {
   });
 };
 
-exports.listRecipes = (req, res) => {
-  const recipes = recipesModel.readAll();
+exports.listRecipes = async (req, res) => {
+  const recipes = await getAllRecipes();
   let filtered = recipes;
   const { dietary, mealType, cuisine, prepTime, ingredients } = req.query;
 

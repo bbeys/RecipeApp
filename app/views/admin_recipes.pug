@@ -1,11 +1,7 @@
-doctype html
-html
-  head
-    meta(charset='utf-8')
-    title Admin — Recipes
-    link(rel='stylesheet' href='/styles.css')
-  body
-    .container
+extends layout
+
+block content
+  .container
       header
         h1 Recipe management
         a.button(href='/dashboard') ← Back to dashboard
@@ -15,9 +11,7 @@ html
         section.recipes
           each r in recipes
             article.card
-              h2
-                a(href=`/admin/recipes/${r.id}/edit`)= r.title
-              .meta
+              h2= r.title
               .meta
                 if r.cuisine
                   span.badge= Array.isArray(r.cuisine) ? r.cuisine.join(', ') : r.cuisine
@@ -25,7 +19,6 @@ html
                   span.badge= Array.isArray(r.mealType) ? r.mealType.join(', ') : r.mealType
               p= r.prepTime
               .actions
-                a.button(href=`/admin/recipes/${r.id}/edit`) Edit
                 form(action=`/admin/recipes/${r.id}/delete` method='post' style='display:inline')
                   button(type='submit' onclick="return confirm('Delete this recipe?')") Delete
       else

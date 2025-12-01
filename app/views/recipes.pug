@@ -1,23 +1,16 @@
-doctype html
-html
-  head
-    meta(charset='utf-8')
-    meta(name='viewport' content='width=device-width,initial-scale=1')
-    title Recipes
-    link(rel='stylesheet' href='/styles.css')
-  body
-    .container
+extends layout
+
+block content
+  .container
       header
         h1 Recipes
         a.button(href='/') ← Back to search
 
-      // show filter summary + share URL
+      // show filter summary
       if path
         .filters
           strong Filters:
           |  #{Object.keys(query).length ? Object.entries(query).map(([k,v]) => `${k}=${Array.isArray(v)?v.join(','):v}`).join(' • ') : 'None (showing all recipes)'}
-          button#copyBtn(type='button' title='Copy link to clipboard') Copy this search URL
-          span#copyFeedback.hidden ✅ copied
 
       section.recipes
         if recipes && recipes.length
@@ -58,4 +51,5 @@ html
         else
           p.no-results No recipes found for that filter configuration.
 
-    script(src='/js/recipes.js')
+block scripts
+  script(src='/js/recipes.js')

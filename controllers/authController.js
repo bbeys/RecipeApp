@@ -1,12 +1,12 @@
-const usersModel = require('../models/users');
+const { findUserByEmail } = require('../models/user');
 
 exports.getLogin = (req, res) => {
   res.render('login', { error: null });
 };
 
-exports.postLogin = (req, res) => {
+exports.postLogin = async (req, res) => {
   const { email, password } = req.body || {};
-  const user = usersModel.findByEmail(email);
+  const user = await findUserByEmail(email);
   if (!user || user.password !== password) return res.render('login', { error: 'Invalid credentials' });
   req.session.userId = user.id;
   res.redirect('/');

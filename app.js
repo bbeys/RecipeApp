@@ -1,17 +1,18 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-const usersModel = require('./models/users');
+const { findUserById } = require('./models/user');
+const { getAllRecipes, getAllUsers } = require('./models/recipe');
 
 const app = express();
 const PORT = 3000;
 
 // Pug view engine & views folder
 app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'view'));
+app.set('views', './app/views');
 
-// static + body parsing
-app.use(express.static(path.join(__dirname, 'public')));
+// Add static files location
+app.use(express.static('static'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -19,17 +20,18 @@ app.use(express.json());
 app.use(session({ secret: 'recipe-app-secret-please-change', resave: false, saveUninitialized: false }));
 
 // Attach user to res.locals so templates can inspect logged-in user easily
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   res.locals.user = null;
   if (req.session && req.session.userId) {
-    const u = usersModel.findById(req.session.userId);
+    const u = await findUserById(req.session.userId);
     if (u) res.locals.user = u;
 
     // if admin, add basic totals for dashboard header
-    if (u && u.role === 'admin') {
-      const recipesModel = require('./models/recipes');
-      const allRecipes = recipesModel.readAll();
-      const allUsers = usersModel.readAll();
+    if (u && u.isAdmin()) {
+      const { getAllRecipes } = require('./models/recipe');
+      const { getAllUsers } = require('./models/user');
+      const allRecipes = await getAllRecipes();
+      const allUsers = await getAllUsers();
       res.locals.adminTotals = { totalUsers: allUsers.length, totalRecipes: allRecipes.length };
     }
   }
