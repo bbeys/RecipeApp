@@ -17,10 +17,10 @@ exports.dashboard = async (req, res) => {
 };
 
 exports.getProfile = async (req, res) => {
-  console.log('Session userId:', req.session.userId); // DEBUG
+  console.log('Session userId:', req.session.userId);
   const user = new User(req.session.userId);
   await user.getUserDetails(req.session.userRole);
-  console.log('Found user:', user ? user.name : 'null'); // DEBUG
+  console.log('Found user:', user ? user.name : 'null');
   res.render('profile', { user, error: null });
 };
 
