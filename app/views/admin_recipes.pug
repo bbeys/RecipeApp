@@ -19,6 +19,7 @@ block content
                   span.badge= Array.isArray(r.mealType) ? r.mealType.join(', ') : r.mealType
               p= r.prepTime
               .actions
+                a.button(href=`/admin/recipes/${r.id}/edit`) Edit
                 form(action=`/admin/recipes/${r.id}/delete` method='post' style='display:inline')
                   button(type='submit' onclick="return confirm('Delete this recipe?')") Delete
       else

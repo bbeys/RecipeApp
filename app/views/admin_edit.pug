@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  .container
+    header
+      h1 Edit Recipe
+      a.button(href='/admin/recipes') ← Back to recipes
+
+    form(action=`/admin/recipes/${recipe.id}/edit` method='post')
+      if error
+        p.error= error
+
+      label Recipe Name:
+      input(type='text' name='title' value=recipe.title required)
+
+      label Ingredients (comma-separated):
+      input(type='text' name='ingredients' value=recipe.ingredients ? recipe.ingredients.join(', ') : '')
+
+      label Dietary (comma-separated, e.g., vegan, vegetarian):
+      input(type='text' name='dietary' value=recipe.dietary ? recipe.dietary.join(', ') : '')
+
+      label Meal Type (comma-separated, e.g., breakfast, lunch):
+      input(type='text' name='mealType' value=recipe.mealType ? recipe.mealType.join(', ') : '')
+
+      label Cuisine (comma-separated, e.g., Italian, Chinese):
+      input(type='text' name='cuisine' value=recipe.cuisine ? recipe.cuisine.join(', ') : '')
+
+      label Prep Time:
+      input(type='text' name='prepTime' value=recipe.prepTime || '')
+
+      label Instructions:
+      textarea(name='instructions' rows='5')= recipe.instructions || ''
+
+      button(type='submit') Update Recipe

@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-const { findUserById } = require('./models/user');
+const { User } = require('./models/user');
 const { getAllRecipes, getAllUsers } = require('./models/recipe');
 
 const app = express();
@@ -23,8 +23,9 @@ app.use(session({ secret: 'recipe-app-secret-please-change', resave: false, save
 app.use(async (req, res, next) => {
   res.locals.user = null;
   if (req.session && req.session.userId) {
-    const u = await findUserById(req.session.userId);
-    if (u) res.locals.user = u;
+    const u = new User(req.session.userId);
+    await u.getUserDetails(req.session.userRole);
+    if (u.name) res.locals.user = u;
 
     // if admin, add basic totals for dashboard header
     if (u && u.isAdmin()) {
