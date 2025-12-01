@@ -13,20 +13,35 @@ class User {
         this.id = id;
     }
 
-    async getUserDetails() {
+    async getUserDetails(role = null) {
         if (!this.name) {
-            // Try USERS table first
-            let [rows] = await db.query(
-                'SELECT user_id as id, CONCAT(first_name, " ", last_name) as name, email, password_hash as password, "user" as role FROM USERS WHERE user_id = ?',
-                [this.id]
-            );
+            let rows;
             
-            // If not found, try ADMIN table
-            if (!rows || rows.length === 0) {
+            // If role is specified, query the appropriate table directly
+            if (role === 'admin') {
                 [rows] = await db.query(
-                    'SELECT admin_id as id, email as name, email, password_hash as password, "admin" as role FROM ADMIN WHERE admin_id = ?',
+                    'SELECT admin_id as id, CONCAT(first_name, " ", last_name) as name, email, password_hash as password, "admin" as role FROM ADMIN WHERE admin_id = ?',
                     [this.id]
                 );
+            } else if (role === 'user') {
+                [rows] = await db.query(
+                    'SELECT user_id as id, CONCAT(first_name, " ", last_name) as name, email, password_hash as password, "user" as role FROM USERS WHERE user_id = ?',
+                    [this.id]
+                );
+            } else {
+                // Try USERS table first if role not specified
+                [rows] = await db.query(
+                    'SELECT user_id as id, CONCAT(first_name, " ", last_name) as name, email, password_hash as password, "user" as role FROM USERS WHERE user_id = ?',
+                    [this.id]
+                );
+                
+                // If not found, try ADMIN table
+                if (!rows || rows.length === 0) {
+                    [rows] = await db.query(
+                        'SELECT admin_id as id, CONCAT(first_name, " ", last_name) as name, email, password_hash as password, "admin" as role FROM ADMIN WHERE admin_id = ?',
+                        [this.id]
+                    );
+                }
             }
 
             if (rows && rows.length > 0) {
@@ -97,7 +112,7 @@ async function getAllUsers() {
         `SELECT user_id as id, CONCAT(first_name, " ", last_name) as name, email, password_hash as password, "user" as role 
          FROM USERS 
          UNION 
-         SELECT admin_id as id, email as name, email, password_hash as password, "admin" as role 
+         SELECT admin_id as id, CONCAT(first_name, " ", last_name) as name, email, password_hash as password, "admin" as role 
          FROM ADMIN`
     );
     
@@ -122,7 +137,7 @@ async function findUserByEmail(email) {
     
     if (!rows || rows.length === 0) {
         [rows] = await db.query(
-            'SELECT admin_id as id, email as name, email, password_hash as password, "admin" as role FROM ADMIN WHERE email = ?',
+            'SELECT admin_id as id, CONCAT(first_name, " ", last_name) as name, email, password_hash as password, "admin" as role FROM ADMIN WHERE email = ?',
             [email]
         );
     }

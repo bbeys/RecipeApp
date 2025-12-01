@@ -7,7 +7,7 @@ block content
           h1 Admin dashboard
         else
           h1 Your saved recipes
-        a.button(href='/') ← Search
+        a.button(href='/') ← Home
 
       if locals.user && locals.user.role === 'admin'
         // Admin controls
@@ -25,5 +25,6 @@ block content
               article.card
                 h2= r.title
                 p= r.prepTime
+                button.fav-btn.favorited(data-id=r.id) ★
         else
           p No saved recipes yet — from any recipe click the star to add it here.

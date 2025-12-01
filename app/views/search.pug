@@ -2,19 +2,18 @@ extends layout
 
 block content
   header
-    h1 Search recipes
-    nav
-      // always show 'All recipes' in the header
-      a.button(href='/recipes') All recipes
+    nav.top-nav
       if !locals.user
         a(href='/login') Login
       else
-        span Hello #{locals.user.name}
         a(href='/dashboard') Dashboard
         a(href='/profile') Profile
         a(href='/logout') Logout
-        if locals.user.role === 'admin'
-          a(href='/admin/add-recipe') Add recipe
+
+  // Hello message at the top center
+  if locals.user
+    .greeting-container(style='text-align: center; margin: 2rem 0; font-size: 1.5rem; font-weight: bold;')
+      | Hello #{locals.user.name}
 
   // For admins: don't show suggested or the search controls — show admin summary only
   if locals.user && locals.user.role === 'admin'
@@ -23,11 +22,6 @@ block content
         h2 Admin summary
         p Total users: #{adminTotals.totalUsers}
         p Total recipes: #{adminTotals.totalRecipes}
-    // also show admin quick links
-    nav.admin-links
-      a.button(href='/dashboard') Admin dashboard
-      a.button(href='/admin/recipes') Recipes
-      a.button(href='/admin/users') Users
   else
     if suggested
       section.suggested
@@ -41,6 +35,10 @@ block content
           p= suggested.instructions
 
     // search + suggested are shown only to non-admins
+
+    a.button(href='/recipes' style='display: inline-block; margin-bottom: 1rem;') View All Recipes
+
+    h2 Search recipes
 
     form#searchForm(action='/recipes' method='get')
       fieldset

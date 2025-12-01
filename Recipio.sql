@@ -39,8 +39,8 @@ CREATE TABLE `ADMIN` (
 --
 
 INSERT INTO `ADMIN` (`admin_id`, `email`, `password_hash`, `created_at`) VALUES
-(1, 'admin@recipeapp.com', '$2y$10$examplehashedpassword123', '2025-11-30 20:04:58'),
-(2, 'priya@example.com', 'adminpass', '2025-11-30 20:23:09');
+(100, 'admin@recipeapp.com', '$2y$10$examplehashedpassword123', '2025-11-30 20:04:58'),
+(101, 'priya@example.com', 'adminpass', '2025-11-30 20:23:09');
 
 -- --------------------------------------------------------
 
@@ -108,7 +108,7 @@ INSERT INTO `INSTRUCTION` (`instruction_id`, `recipe_id`, `instruction_text`) VA
 (2, 2, 'Cook lentils with chopped vegetables until soft. Blend if desired.'),
 (3, 3, 'Toast bread, mash avocado with lemon and salt, spread on toast.'),
 (4, 4, 'Stir fry chicken and vegetables in soy sauce until cooked through.'),
-(5, 5, 'Sauté vegetables and bake together in a dish until tender.'),
+(5, 5, 'Saute vegetables and bake together in a dish until tender.'),
 (6, 6, 'Mix ingredients and cook on a hot griddle until golden brown.'),
 (7, 7, 'Stuff peppers with rice and bean mixture, bake with tomato sauce.');
 
@@ -138,13 +138,13 @@ CREATE TABLE `RECIPES` (
 --
 
 INSERT INTO `RECIPES` (`recipe_id`, `created_by_admin_id`, `recipe_name`, `preparation_time`, `cooking_time`, `cuisine_type`, `meal_type`, `is_vegan`, `is_vegetarian`, `is_gluten_free`, `is_dairy_free`, `created_at`) VALUES
-(1, 1, 'Vegetarian Lasagna', 45, 30, 'Italian', 'Dinner', 0, 1, 0, 0, '2025-11-30 20:27:14'),
-(2, 1, 'Vegan Lentil Soup', 30, 20, 'Turkish', 'Lunch', 1, 1, 1, 1, '2025-11-30 20:27:14'),
-(3, 1, 'Gluten-Free Avocado Toast', 10, 5, 'American', 'Breakfast', 0, 1, 1, 1, '2025-11-30 20:27:14'),
-(4, 1, 'Dairy-Free Chicken Stir Fry', 25, 15, 'Asian', 'Dinner', 0, 0, 0, 1, '2025-11-30 20:27:14'),
-(5, 1, 'French Ratatouille', 40, 30, 'French', 'Dinner', 1, 1, 1, 1, '2025-11-30 20:27:14'),
-(6, 1, 'Gluten-Free Pancakes', 20, 10, 'American', 'Breakfast', 0, 1, 1, 0, '2025-11-30 20:27:14'),
-(7, 1, 'Vegan Stuffed Peppers', 35, 25, 'Mexican', 'Lunch', 1, 1, 0, 1, '2025-11-30 20:27:14');
+(1, 100, 'Vegetarian Lasagna', 45, 30, 'Italian', 'Dinner', 0, 1, 0, 0, '2025-11-30 20:27:14'),
+(2, 100, 'Vegan Lentil Soup', 30, 20, 'Turkish', 'Lunch', 1, 1, 1, 1, '2025-11-30 20:27:14'),
+(3, 100, 'Gluten-Free Avocado Toast', 10, 5, 'American', 'Breakfast', 0, 1, 1, 1, '2025-11-30 20:27:14'),
+(4, 100, 'Dairy-Free Chicken Stir Fry', 25, 15, 'Asian', 'Dinner', 0, 0, 0, 1, '2025-11-30 20:27:14'),
+(5, 100, 'French Ratatouille', 40, 30, 'French', 'Dinner', 1, 1, 1, 1, '2025-11-30 20:27:14'),
+(6, 100, 'Gluten-Free Pancakes', 20, 10, 'American', 'Breakfast', 0, 1, 1, 0, '2025-11-30 20:27:14'),
+(7, 100, 'Vegan Stuffed Peppers', 35, 25, 'Mexican', 'Lunch', 1, 1, 0, 1, '2025-11-30 20:27:14');
 
 -- --------------------------------------------------------
 
@@ -303,7 +303,7 @@ ALTER TABLE `USERS`
 -- AUTO_INCREMENT for table `ADMIN`
 --
 ALTER TABLE `ADMIN`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT for table `INGREDIENT`

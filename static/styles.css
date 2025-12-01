@@ -2,8 +2,9 @@
 *{box-sizing:border-box;font-family:Segoe UI, Roboto, Arial, sans-serif}
 body{margin:0;background:var(--bg);color:#0f172a}
 .container{max-width:960px;margin:28px auto;padding:20px}
-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-header h1{font-size:1.6rem;margin:0}
+header{display:flex;align-items:center;justify-content:flex-end;margin-bottom:18px}
+header h1{font-size:1.6rem;margin:0;flex:1}
+.top-nav{display:flex;gap:10px;align-items:center}
 .button{display:inline-block;background:#0ea5a2;color:white;padding:8px 12px;border-radius:6px;text-decoration:none}
 .filters{display:flex;gap:12px;align-items:center;margin-bottom:16px;color:var(--muted)}
 .filters strong{margin-right:6px;color:#111827}
@@ -21,6 +22,8 @@ header h1{font-size:1.6rem;margin:0}
 details summary{cursor:pointer;margin-top:8px;font-weight:600}
 .fav-btn{position:absolute;right:12px;bottom:12px;border:none;background:transparent;font-size:20px;color:#cbd5e1;cursor:pointer;padding:6px}
 .fav-btn.favorited{color:gold;text-shadow:0 0 6px rgba(0,0,0,0.12)}
+.unsave-btn{position:absolute;right:12px;top:12px;background:#ef4444;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:0.85rem}
+.unsave-form{margin:0}
 .card{position:relative}
 .no-results{color:var(--muted)}
 

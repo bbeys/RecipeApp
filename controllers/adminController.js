@@ -1,10 +1,11 @@
 const { Recipe, getAllRecipes, addRecipe, deleteRecipe } = require('../models/recipe');
-const { getAllUsers, findUserById } = require('../models/user');
+const { User, getAllUsers, findUserById } = require('../models/user');
 
 async function requireAdmin(req, res, next) {
   if (!req.session || !req.session.userId) return res.redirect('/login');
-  const u = await findUserById(req.session.userId);
-  if (!u || !u.isAdmin()) return res.status(403).send('Forbidden');
+  const u = new User(req.session.userId);
+  await u.getUserDetails(req.session.userRole);
+  if (!u.name || !u.isAdmin()) return res.status(403).send('Forbidden');
   next();
 }
 
