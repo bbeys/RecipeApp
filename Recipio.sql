@@ -39,7 +39,7 @@ CREATE TABLE `ADMIN` (
 --
 
 INSERT INTO `ADMIN` (`admin_id`, `email`, `password_hash`, `created_at`) VALUES
-(1, 'admin@recipeapp.com', '$2y$10$examplehashedpassword123', '2025-11-30 20:04:58'),
+(1, 'admin@recipeapp.com', 'recipioadmin', '2025-11-30 20:04:58'),
 (2, 'priya@example.com', 'adminpass', '2025-11-30 20:23:09');
 
 -- --------------------------------------------------------
