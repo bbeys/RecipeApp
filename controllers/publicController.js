@@ -1,4 +1,5 @@
 const { getAllRecipes } = require('../models/recipe');
+const { User } = require('../models/user');
 
 function uniq(arr = []) {
   return Array.from(new Set(arr.filter(Boolean)));
@@ -13,6 +14,12 @@ function asArray(v) {
 }
 
 exports.home = async (req, res) => {
+  let user = null;
+  if (req.session && req.session.userId) {
+    user = new User(req.session.userId);
+    await user.getUserDetails(req.session.userRole);
+  }
+  
   const recipes = await getAllRecipes();
   const allIngredients = uniq(recipes.flatMap(r => r.ingredients || [])).sort((a,b) => a.localeCompare(b));
   const allDietary = uniq(recipes.flatMap(r => (Array.isArray(r.dietary) ? r.dietary : [r.dietary]).filter(Boolean))).sort((a,b) => a.localeCompare(b));
@@ -23,6 +30,7 @@ exports.home = async (req, res) => {
   const suggested = recipes.length ? recipes[Math.floor(Math.random() * recipes.length)] : null;
 
   res.render('search', {
+    user,
     ingredients: allIngredients,
     dietary: allDietary,
     mealTypes: allMealTypes,
