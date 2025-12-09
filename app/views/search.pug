@@ -46,6 +46,7 @@ block content
     form#searchForm(action='/recipes' method='get')
       fieldset
         legend Ingredients (select any)
+        p(style='font-size: 0.9em; color: #666; margin-bottom: 1rem;') 💡 Tip: Select ingredients you have. Recipes containing ANY of these will be shown.
         each ingredient in ingredients
           label
             input(type='checkbox' name='ingredients' value=ingredient)
