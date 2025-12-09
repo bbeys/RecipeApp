@@ -8,7 +8,7 @@ A recipe management application built with Node.js, Express, MySQL, and Docker.
 - 🍳 **Recipe Management**: Full CRUD operations (Create, Read, Update, Delete)
 - 🔍 **Search & Filter**: Search recipes by ingredients, dietary preferences, meal type, cuisine, and prep time
 - ⭐ **Favorites**: Users can save their favorite recipes
-- 👨‍💼 **Admin Panel**: Manage recipes and users
+- 👨‍💼 **Admin Panel**: Admin overview. Admin can add, delete or edit the recipe.
 - 🐳 **Docker Deployment**: Containerized application with MySQL database
 
 ## Technologies
@@ -79,8 +79,8 @@ recipe-app/
 
 ## Author
 
-Beyza - MSc Software Development 2
-
+Beyza Saglam - MSc Computing
+Polina Shelestova - MSc Computing
 ## License
 
 This project is part of academic coursework.
