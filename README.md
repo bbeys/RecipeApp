@@ -79,8 +79,7 @@ recipe-app/
 
 ## Author
 
-Beyza Saglam - MSc Computing
-Polina Shelestova - MSc Computing
+Beyza Saglam - Polina Shelestova - MSc Computing
 ## License
 
 This project is part of academic coursework.
