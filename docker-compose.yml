@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: recipio-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: t24SSr6K
+      MYSQL_DATABASE: Recipio
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./Recipio.sql:/docker-entrypoint-initdb.d/Recipio.sql
+    networks:
+      - recipe-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pt24SSr6K"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: recipio-app
+    environment:
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: t24SSr6K
+      DB_NAME: Recipio
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - recipe-network
+    volumes:
+      - ./:/app
+      - /app/node_modules
+
+volumes:
+  mysql_data:
+
+networks:
+  recipe-network:
+    driver: bridge
