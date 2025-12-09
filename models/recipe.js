@@ -125,21 +125,25 @@ async function getAllRecipes() {
 
 async function addRecipe(recipeData) {
     try {
+        console.log('Adding recipe with data:', JSON.stringify(recipeData, null, 2));
+        
         const prepTimeNum = parseInt(recipeData.prepTime) || 0;
-        const isVegan = recipeData.dietary.includes('Vegan') ? 1 : 0;
-        const isVegetarian = recipeData.dietary.includes('Vegetarian') ? 1 : 0;
-        const isGlutenFree = recipeData.dietary.includes('Gluten-Free') ? 1 : 0;
-        const isDairyFree = recipeData.dietary.includes('Dairy-Free') ? 1 : 0;
+        const dietary = Array.isArray(recipeData.dietary) ? recipeData.dietary : [];
+        const isVegan = dietary.includes('Vegan') ? 1 : 0;
+        const isVegetarian = dietary.includes('Vegetarian') ? 1 : 0;
+        const isGlutenFree = dietary.includes('Gluten-Free') ? 1 : 0;
+        const isDairyFree = dietary.includes('Dairy-Free') ? 1 : 0;
 
         const [result] = await db.query(
             `INSERT INTO RECIPES (created_by_admin_id, recipe_name, preparation_time, cooking_time,
              cuisine_type, meal_type, is_vegan, is_vegetarian, is_gluten_free, is_dairy_free)
              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [1, recipeData.title, prepTimeNum, 0, recipeData.cuisine[0] || 'American',
+            [recipeData.adminId || 101, recipeData.title, prepTimeNum, 0, recipeData.cuisine[0] || 'American',
              recipeData.mealType[0] || 'Dinner', isVegan, isVegetarian, isGlutenFree, isDairyFree]
         );
 
         const newRecipeId = result.insertId;
+        console.log('Recipe inserted with ID:', newRecipeId);
 
         await db.query('INSERT INTO INSTRUCTION (recipe_id, instruction_text) VALUES (?, ?)',
             [newRecipeId, recipeData.instructions || '']);

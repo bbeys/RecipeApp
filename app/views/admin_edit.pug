@@ -13,20 +13,46 @@ block content
       label Recipe Name:
       input(type='text' name='title' value=recipe.title required)
 
-      label Ingredients (comma-separated):
-      input(type='text' name='ingredients' value=recipe.ingredients ? recipe.ingredients.join(', ') : '')
+      label Ingredients (select multiple with Ctrl/Cmd):
+      select(name='ingredients' multiple size='8')
+        each ingredient in allIngredients
+          if recipe.ingredients && recipe.ingredients.includes(ingredient)
+            option(value=ingredient selected='selected')= ingredient
+          else
+            option(value=ingredient)= ingredient
 
-      label Dietary (comma-separated, e.g., vegan, vegetarian):
-      input(type='text' name='dietary' value=recipe.dietary ? recipe.dietary.join(', ') : '')
+      label Dietary (select multiple with Ctrl/Cmd):
+      select(name='dietary' multiple size='4')
+        each option in dietaryOptions
+          if recipe.dietary && recipe.dietary.includes(option)
+            option(value=option selected='selected')= option
+          else
+            option(value=option)= option
 
-      label Meal Type (comma-separated, e.g., breakfast, lunch):
-      input(type='text' name='mealType' value=recipe.mealType ? recipe.mealType.join(', ') : '')
+      label Meal Type:
+      select(name='mealType')
+        each option in mealTypes
+          if recipe.mealType && recipe.mealType.includes(option)
+            option(value=option selected='selected')= option
+          else
+            option(value=option)= option
 
-      label Cuisine (comma-separated, e.g., Italian, Chinese):
-      input(type='text' name='cuisine' value=recipe.cuisine ? recipe.cuisine.join(', ') : '')
+      label Cuisine:
+      select(name='cuisine')
+        each option in cuisines
+          if recipe.cuisine && recipe.cuisine.includes(option)
+            option(value=option selected='selected')= option
+          else
+            option(value=option)= option
 
       label Prep Time:
-      input(type='text' name='prepTime' value=recipe.prepTime || '')
+      select(name='prepTime')
+        option(value='') Select time
+        each option in prepTimeOptions
+          if recipe.prepTime && recipe.prepTime === option
+            option(value=option selected='selected')= option
+          else
+            option(value=option)= option
 
       label Instructions:
       textarea(name='instructions' rows='5')= recipe.instructions || ''
