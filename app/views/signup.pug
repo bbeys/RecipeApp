@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  .container
+      h1 Sign Up
+      if error
+        p.error= error
+      form(action='/signup' method='post')
+        label First Name
+          input(type='text' name='firstName' required)
+        label Last Name
+          input(type='text' name='lastName' required)
+        label Email
+          input(type='email' name='email' required)
+        label Password
+          input(type='password' name='password' required minlength='6')
+        label Confirm Password
+          input(type='password' name='confirmPassword' required minlength='6')
+        button(type='submit') Create Account
+      p
+        | Already have an account?
+        |  
+        a(href='/login') Login here

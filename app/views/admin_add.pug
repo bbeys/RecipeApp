@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  .container
+      header
+        h1 Add recipe
+        a.button(href='/') ← Back to search
+
+      if error
+        p.error= error
+
+      form(action='/admin/add-recipe' method='post')
+        label Title
+          input(type='text' name='title' required)
+        label Ingredients (select multiple with Ctrl/Cmd)
+          select(name='ingredients' multiple size='8')
+            each ingredient in allIngredients
+              option(value=ingredient)= ingredient
+        label Dietary (select multiple with Ctrl/Cmd)
+          select(name='dietary' multiple size='4')
+            each option in dietaryOptions
+              option(value=option)= option
+        label Meal Type
+          select(name='mealType')
+            each option in mealTypes
+              option(value=option)= option
+        label Cuisine
+          select(name='cuisine')
+            each option in cuisines
+              option(value=option)= option
+        label Prep Time
+          select(name='prepTime')
+            option(value='') Select time
+            each option in prepTimeOptions
+              option(value=option)= option
+        label Instructions
+          textarea(name='instructions')
+        button(type='submit') Create recipe

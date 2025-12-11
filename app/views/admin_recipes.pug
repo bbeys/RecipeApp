@@ -1,0 +1,47 @@
+extends layout
+
+block content
+  .container
+      header
+        h1 Recipe management
+        a.button(href='/dashboard') ← Back to dashboard
+        a.button(href='/admin/add-recipe') Add new recipe
+
+      if recipes && recipes.length
+        section.recipes
+          each r in recipes
+            article.card
+              h2.card-title= r.title
+              .meta
+                if r.prepTime
+                  span.badge Prep: #{r.prepTime}
+                if r.cuisine
+                  span.badge Cuisine: #{Array.isArray(r.cuisine) ? r.cuisine.join(', ') : r.cuisine}
+                if r.mealType
+                  span.badge Meal Type: #{Array.isArray(r.mealType) ? r.mealType.join(', ') : r.mealType}
+              
+              if r.ingredients
+                p
+                  strong Ingredients:
+                  span.chips
+                    each ing in r.ingredients
+                      span.chip= ing
+              
+              if r.dietary
+                p
+                  strong Dietary:
+                  span.diet
+                    each d in (Array.isArray(r.dietary) ? r.dietary : [r.dietary])
+                      span.badge= d
+              
+              if r.instructions
+                details
+                  summary Instructions
+                  p= r.instructions
+              
+              .actions
+                a.button(href=`/admin/recipes/${r.id}/edit`) Edit
+                form(action=`/admin/recipes/${r.id}/delete` method='post' style='display:inline')
+                  button(type='submit' onclick="return confirm('Delete this recipe?')") Delete
+      else
+        p No recipes found.

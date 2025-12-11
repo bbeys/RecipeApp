@@ -1,0 +1,50 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width,initial-scale=1')
+    title= title || 'Recipio - Your Recipe Collection'
+    link(rel='stylesheet' href='/styles.css')
+  body
+    // Modern Navigation Bar
+    nav.navbar
+      .navbar-container
+        // Logo/Brand
+        a.navbar-brand(href='/') Recipio
+        
+        // Navigation Links
+        .navbar-menu
+          if locals.user
+            // Logged in navigation
+            if locals.user.role === 'admin'
+              a.nav-link(href='/admin/recipes') Manage Recipes
+              a.nav-link(href='/admin/users') Manage Users
+            else
+              a.nav-link(href='/') Search Recipes
+              a.nav-link(href='/recipes') View All Recipes
+              a.nav-link(href='/dashboard') My Favorites
+            
+            // User menu
+            .navbar-user
+              a.nav-link.nav-link-profile(href='/profile')
+                span.user-avatar #{locals.user.name ? locals.user.name.charAt(0).toUpperCase() : 'U'}
+                span.user-name #{locals.user.name}
+              a.nav-link.nav-link-logout(href='/logout') Logout
+          else
+            // Not logged in navigation
+            a.nav-link(href='/') Home
+            a.nav-link(href='/recipes') View All Recipes
+            .navbar-auth
+              a.nav-link.btn-outline(href='/login') Login
+              a.nav-link.btn-primary(href='/signup') Sign Up
+    
+    // Main Content Area
+    main.main-content
+      block content
+    
+    // Footer
+    footer.footer
+      .footer-container
+        p &copy; 2025 Recipio. Your personal recipe collection.
+    
+    block scripts

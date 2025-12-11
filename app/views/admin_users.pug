@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  .container
+      header
+        h1 User management
+        a.button(href='/dashboard') ← Back to dashboard
+
+      if users && users.length
+        table.users
+          thead
+            tr
+              th ID
+              th Name
+              th Email
+              th Role
+          tbody
+            each u in users
+              tr
+                td= u.id
+                td= u.name
+                td= u.email
+                td= u.role
+      else
+        p No users found.

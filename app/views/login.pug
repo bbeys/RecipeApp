@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  .container
+      h1 Login
+      if error
+        p.error= error
+      form(action='/login' method='post')
+        label Email
+          input(type='email' name='email' required)
+        label Password
+          input(type='password' name='password' required)
+        button(type='submit') Sign in
+      p
+        | Don't have an account?
+        |  
+        a(href='/signup') Sign up here
+      p
+        | Demo accounts:
+        br
+        | admin: priya@example.com / adminpass
+        br
+        | user: sara@example.com / sarapass

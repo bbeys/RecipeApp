@@ -1,0 +1,60 @@
+extends layout
+
+block content
+  .container
+    header
+      h1 Edit Recipe
+      a.button(href='/admin/recipes') ← Back to recipes
+
+    form(action=`/admin/recipes/${recipe.id}/edit` method='post')
+      if error
+        p.error= error
+
+      label Recipe Name:
+      input(type='text' name='title' value=recipe.title required)
+
+      label Ingredients (select multiple with Ctrl/Cmd):
+      select(name='ingredients' multiple size='8')
+        each ingredient in allIngredients
+          if recipe.ingredients && recipe.ingredients.includes(ingredient)
+            option(value=ingredient selected='selected')= ingredient
+          else
+            option(value=ingredient)= ingredient
+
+      label Dietary (select multiple with Ctrl/Cmd):
+      select(name='dietary' multiple size='4')
+        each option in dietaryOptions
+          if recipe.dietary && recipe.dietary.includes(option)
+            option(value=option selected='selected')= option
+          else
+            option(value=option)= option
+
+      label Meal Type:
+      select(name='mealType')
+        each option in mealTypes
+          if recipe.mealType && recipe.mealType.includes(option)
+            option(value=option selected='selected')= option
+          else
+            option(value=option)= option
+
+      label Cuisine:
+      select(name='cuisine')
+        each option in cuisines
+          if recipe.cuisine && recipe.cuisine.includes(option)
+            option(value=option selected='selected')= option
+          else
+            option(value=option)= option
+
+      label Prep Time:
+      select(name='prepTime')
+        option(value='') Select time
+        each option in prepTimeOptions
+          if recipe.prepTime && recipe.prepTime === option
+            option(value=option selected='selected')= option
+          else
+            option(value=option)= option
+
+      label Instructions:
+      textarea(name='instructions' rows='5')= recipe.instructions || ''
+
+      button(type='submit') Update Recipe
