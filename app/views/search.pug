@@ -1,18 +1,9 @@
 extends layout
 
 block content
-  header
-    nav.top-nav
-      if !locals.user
-        a(href='/login') Login
-      else
-        a(href='/dashboard') Dashboard
-        a(href='/profile') Profile
-        a(href='/logout') Logout
-
   // Hello message at the top center
   if locals.user
-    .greeting-container(style='text-align: center; margin: 2rem 0; font-size: 1.5rem; font-weight: bold;')
+    .greeting-container
       if locals.user.role === 'admin'
         | Hello #{locals.user.name} Admin
       else
@@ -22,13 +13,13 @@ block content
   if locals.user && locals.user.role === 'admin'
     if adminTotals
       section.admin-summary
-        h2 Admin summary
-        p Total users: #{adminTotals.totalUsers}
-        p Total recipes: #{adminTotals.totalRecipes}
+        h2 Admin Summary
+        p Total Users: #{adminTotals.totalUsers}
+        p Total Recipes: #{adminTotals.totalRecipes}
   else
     if suggested
       section.suggested
-        h2 Suggested for you
+        h2 Suggested For You
         article.card
           h3= suggested.title
           if suggested.prepTime
@@ -37,51 +28,166 @@ block content
             span.badge Cuisine: #{Array.isArray(suggested.cuisine)?suggested.cuisine.join(', '):suggested.cuisine}
           p= suggested.instructions
 
-    // search + suggested are shown only to non-admins
-
-    a.button(href='/recipes' style='display: inline-block; margin-bottom: 1rem;') View All Recipes
-
-    h2 Search recipes
+    h2 Search Recipes
 
     form#searchForm(action='/recipes' method='get')
-      fieldset
-        legend Ingredients
-        p(style='font-size: 0.9em; color: #666; margin-bottom: 1rem;') 👨‍🍳 Tip: Select ingredients you have. Recipes containing ANY of these will be shown.
-        each ingredient in ingredients
-          label
-            input(type='checkbox' name='ingredients' value=ingredient)
-            | #{ingredient}
+      // Ingredients Section - Collapsible with Scroll and Categories
+      .filter-section.open
+        .filter-header(onclick='toggleFilter(this)')
+          legend Ingredients
+          span.filter-toggle ▼
+        .filter-content
+          .filter-body
+            p.tip Tip: Select ingredients you have. Recipes containing ANY of these will be shown.
+            
+            - var proteins = ['chicken', 'ground chicken', 'chicken breast', 'chicken thighs', 'shrimp', 'salmon', 'beef sirloin', 'beef bones', 'ground beef', 'tofu', 'paneer', 'eggs', 'chorizo']
+            - var vegetables = ['broccoli', 'carrots', 'onion', 'bell peppers', 'spinach', 'zucchini', 'eggplant', 'tomatoes', 'mushrooms', 'kale', 'sweet potato', 'cucumber', 'lettuce', 'asparagus', 'corn', 'bamboo shoots', 'cherry tomatoes', 'green onions', 'chili peppers', 'jalapeños', 'bean sprouts']
+            - var grains = ['rice', 'quinoa', 'noodles', 'rice noodles', 'fettuccine pasta', 'lasagna noodles', 'paella rice', 'arborio rice', 'jasmine rice', 'couscous', 'flour', 'gluten-free flour']
+            - var legumes = ['lentils', 'chickpeas', 'black beans']
+            - var dairy = ['milk', 'butter', 'ricotta cheese', 'mozzarella cheese', 'feta cheese', 'cheddar cheese', 'monterey jack cheese', 'american cheese', 'parmesan cheese', 'heavy cream', 'sour cream', 'coconut milk', 'coconut cream']
+            - var herbs = ['garlic', 'ginger', 'basil', 'Thai basil', 'cilantro', 'parsley', 'dill', 'cumin', 'coriander', 'turmeric', 'garam masala', 'paprika', 'kashmiri chili powder', 'cinnamon', 'chili powder', 'black pepper', 'salt', 'nutmeg', 'saffron', 'star anise']
+            - var sauces = ['soy sauce', 'tomato sauce', 'tomato puree', 'fish sauce', 'hoisin sauce', 'salsa', 'ketchup', 'mustard', 'green curry paste', 'tahini', 'hummus', 'miso paste', 'gochujang', 'tamarind paste']
+            - var breads = ['gluten-free bread', 'pizza dough', 'burger buns', 'flour tortillas', 'corn tortillas', 'phyllo dough', 'pita bread']
+            - var oils = ['olive oil', 'vegetable oil', 'sesame oil']
+            - var other = ['avocado', 'lemon', 'lime', 'baking powder', 'sugar', 'vanilla extract', 'maple syrup', 'peanuts', 'almonds', 'sesame seeds', 'raisins', 'dried apricots', 'berries', 'peas', 'mussels', 'sake', 'mirin', 'white wine', 'rice vinegar', 'cornstarch', 'wakame seaweed', 'chicken broth', 'vegetable broth', 'tabbouleh', 'pickles']
+            
+            .ingredient-category
+              h4.category-header Proteins
+              each ingredient in ingredients
+                if proteins.includes(ingredient.toLowerCase())
+                  label
+                    input(type='checkbox' name='ingredients' value=ingredient)
+                    | #{ingredient}
+            
+            .ingredient-category
+              h4.category-header Vegetables
+              each ingredient in ingredients
+                if vegetables.includes(ingredient.toLowerCase())
+                  label
+                    input(type='checkbox' name='ingredients' value=ingredient)
+                    | #{ingredient}
+            
+            .ingredient-category
+              h4.category-header Grains & Pasta
+              each ingredient in ingredients
+                if grains.includes(ingredient.toLowerCase())
+                  label
+                    input(type='checkbox' name='ingredients' value=ingredient)
+                    | #{ingredient}
+            
+            .ingredient-category
+              h4.category-header Legumes & Beans
+              each ingredient in ingredients
+                if legumes.includes(ingredient.toLowerCase())
+                  label
+                    input(type='checkbox' name='ingredients' value=ingredient)
+                    | #{ingredient}
+            
+            .ingredient-category
+              h4.category-header Dairy
+              each ingredient in ingredients
+                if dairy.includes(ingredient.toLowerCase())
+                  label
+                    input(type='checkbox' name='ingredients' value=ingredient)
+                    | #{ingredient}
+            
+            .ingredient-category
+              h4.category-header Herbs & Spices
+              each ingredient in ingredients
+                if herbs.includes(ingredient.toLowerCase())
+                  label
+                    input(type='checkbox' name='ingredients' value=ingredient)
+                    | #{ingredient}
+            
+            .ingredient-category
+              h4.category-header Sauces & Condiments
+              each ingredient in ingredients
+                if sauces.includes(ingredient.toLowerCase())
+                  label
+                    input(type='checkbox' name='ingredients' value=ingredient)
+                    | #{ingredient}
+            
+            .ingredient-category
+              h4.category-header Breads & Wraps
+              each ingredient in ingredients
+                if breads.includes(ingredient.toLowerCase())
+                  label
+                    input(type='checkbox' name='ingredients' value=ingredient)
+                    | #{ingredient}
+            
+            .ingredient-category
+              h4.category-header Oils & Fats
+              each ingredient in ingredients
+                if oils.includes(ingredient.toLowerCase())
+                  label
+                    input(type='checkbox' name='ingredients' value=ingredient)
+                    | #{ingredient}
+            
+            .ingredient-category
+              h4.category-header Other
+              each ingredient in ingredients
+                if other.includes(ingredient.toLowerCase())
+                  label
+                    input(type='checkbox' name='ingredients' value=ingredient)
+                    | #{ingredient}
 
-    fieldset
-      legend Preferences
-      div
-        label Dietary:
-        each d in dietary
-          label
-            input(type='checkbox' name='dietary' value=d)
-            | #{d}
+      // Dietary Section - Collapsible
+      .filter-section
+        .filter-header(onclick='toggleFilter(this)')
+          legend Dietary Preferences
+          span.filter-toggle ▼
+        .filter-content
+          .filter-body
+            each d in dietary
+              label
+                input(type='checkbox' name='dietary' value=d)
+                | #{d}
 
-      div
-        label Meal Type (exact match):
-        select(name='mealType' multiple)
-          each m in mealTypes
-            option(value=m)= m
+      // Meal Type Section - Collapsible
+      .filter-section
+        .filter-header(onclick='toggleFilter(this)')
+          legend Meal Type
+          span.filter-toggle ▼
+        .filter-content
+          .filter-body
+            each m in mealTypes
+              label
+                input(type='checkbox' name='mealType' value=m)
+                | #{m}
 
-      div
-        label Cuisine (exact match):
-        select(name='cuisine' multiple)
-          each c in cuisines
-            option(value=c)= c
+      // Cuisine Section - Collapsible
+      .filter-section
+        .filter-header(onclick='toggleFilter(this)')
+          legend Cuisine
+          span.filter-toggle ▼
+        .filter-content
+          .filter-body
+            each c in cuisines
+              label
+                input(type='checkbox' name='cuisine' value=c)
+                | #{c}
 
-      div
-        label Prep Time:
-        select(name='prepTime')
-          option(value='') Any
-          each p in prepTimes
-            option(value=p)= p
+      // Prep Time Section - Collapsible
+      .filter-section
+        .filter-header(onclick='toggleFilter(this)')
+          legend Preparation Time
+          span.filter-toggle ▼
+        .filter-content
+          .filter-body
+            each p in prepTimes
+              label
+                input(type='radio' name='prepTime' value=p)
+                | #{p}
+            label
+              input(type='radio' name='prepTime' value='' checked)
+              | Any
 
-      // Show recipes button should always be enabled (submit by default so fallback works)
       button#showBtn(type='submit') Show recipes
 
 block scripts
+  script.
+    function toggleFilter(header) {
+      const section = header.parentElement;
+      section.classList.toggle('open');
+    }
   script(src='/js/search.js')

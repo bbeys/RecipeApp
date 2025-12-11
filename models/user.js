@@ -167,4 +167,33 @@ async function findUserById(id) {
     return user.name ? user : null;
 }
 
-module.exports = { User, getAllUsers, findUserByEmail, findUserById };
+async function createUser(userData) {
+    try {
+        const { firstName, lastName, email, password } = userData;
+        
+        // Insert new user into USERS table
+        const [result] = await db.query(
+            'INSERT INTO USERS (first_name, last_name, email, password_hash) VALUES (?, ?, ?, ?)',
+            [firstName, lastName, email, password]
+        );
+        
+        const newUserId = result.insertId;
+        console.log('User created with ID:', newUserId);
+        
+        // Return the new user object
+        const user = new User(newUserId);
+        user.setName(`${firstName} ${lastName}`);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setRole('user');
+        user.setAvatar('');
+        user.setFavorites([]);
+        
+        return user;
+    } catch (error) {
+        console.error('Error creating user:', error);
+        return null;
+    }
+}
+
+module.exports = { User, getAllUsers, findUserByEmail, findUserById, createUser };

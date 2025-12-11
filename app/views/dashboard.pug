@@ -23,8 +23,37 @@ block content
           section.recipes
             each r in saved
               article.card
-                h2= r.title
-                p= r.prepTime
+                h2.card-title
+                  a(href=`/recipes?id=${r.id}` style='color: inherit; text-decoration: none;')= r.title
+                
+                .meta
+                  if r.prepTime
+                    span.badge= r.prepTime
+                  if r.cuisine && r.cuisine.length
+                    span.badge Cuisine: #{Array.isArray(r.cuisine) ? r.cuisine.join(', ') : r.cuisine}
+                  if r.mealType && r.mealType.length
+                    span.badge #{Array.isArray(r.mealType) ? r.mealType.join(', ') : r.mealType}
+                
+                if r.dietary && r.dietary.length
+                  .diet
+                    each d in (Array.isArray(r.dietary) ? r.dietary : [r.dietary])
+                      span.badge= d
+                
+                if r.ingredients && r.ingredients.length
+                  .chips
+                    each ing in r.ingredients.slice(0, 5)
+                      span.chip= ing
+                    if r.ingredients.length > 5
+                      span.chip +#{r.ingredients.length - 5} more
+                
+                if r.instructions
+                  details
+                    summary View instructions
+                    p= r.instructions
+                
                 button.fav-btn.favorited(data-id=r.id) ★
         else
           p No saved recipes yet — from any recipe click the star to add it here.
+
+block scripts
+  script(src='/js/recipes.js')

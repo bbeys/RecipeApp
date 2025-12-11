@@ -52,7 +52,10 @@ exports.listRecipes = async (req, res) => {
 
   if (dietary) {
     const dietaryArray = asArray(dietary).map(normalize);
-    filtered = filtered.filter(recipe => (Array.isArray(recipe.dietary) ? recipe.dietary : [recipe.dietary]).map(normalize).every(d => dietaryArray.includes(d)));
+    filtered = filtered.filter(recipe => {
+      const recipeDietary = (Array.isArray(recipe.dietary) ? recipe.dietary : [recipe.dietary]).map(normalize);
+      return dietaryArray.every(d => recipeDietary.includes(d));
+    });
   }
 
   if (mealType) {
