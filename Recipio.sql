@@ -17,15 +17,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- Database: `Recipio`
---
 
--- --------------------------------------------------------
 
---
 -- Table structure for table `ADMIN`
---
+
 
 CREATE TABLE `ADMIN` (
   `admin_id` int(11) NOT NULL,
@@ -34,18 +29,17 @@ CREATE TABLE `ADMIN` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
 -- Dumping data for table `ADMIN`
---
+
 
 INSERT INTO `ADMIN` (`admin_id`, `email`, `password_hash`, `created_at`) VALUES
 (101, 'priya@example.com', 'adminpass', '2025-11-30 20:23:09');
 
--- --------------------------------------------------------
 
---
+
+
 -- Table structure for table `INGREDIENT`
---
+
 
 CREATE TABLE `INGREDIENT` (
   `ingredient_id` int(11) NOT NULL,
@@ -53,9 +47,9 @@ CREATE TABLE `INGREDIENT` (
   `category` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
+
 -- Dumping data for table `INGREDIENT`
---
+
 
 INSERT INTO `INGREDIENT` (`ingredient_id`, `ingredient_name`, `category`) VALUES
 (1, 'Lasagna noodles', 'Pasta'),
@@ -190,11 +184,10 @@ INSERT INTO `INGREDIENT` (`ingredient_id`, `ingredient_name`, `category`) VALUES
 (185, 'maple syrup', NULL),
 (186, 'berries', NULL);
 
--- --------------------------------------------------------
 
---
+
+
 -- Table structure for table `INSTRUCTION`
---
 
 CREATE TABLE `INSTRUCTION` (
   `instruction_id` int(11) NOT NULL,
@@ -202,9 +195,8 @@ CREATE TABLE `INSTRUCTION` (
   `instruction_text` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
 -- Dumping data for table `INSTRUCTION`
---
+
 
 INSERT INTO `INSTRUCTION` (`instruction_id`, `recipe_id`, `instruction_text`) VALUES
 (1, 1, 'Layer noodles with ricotta, spinach, and sauce. Bake for 30 minutes.'),
@@ -238,11 +230,10 @@ INSERT INTO `INSTRUCTION` (`instruction_id`, `recipe_id`, `instruction_text`) VA
 (39, 33, 'Mix ground beef with salt and pepper. Form into 4 patties. Heat grill or pan to high heat. Cook burgers 4 minutes per side for medium. Add cheese in last minute if desired. Toast burger buns. Assemble: bottom bun, lettuce, tomato, burger patty with cheese, pickles, onion, ketchup, mustard, top bun. Serve with fries.'),
 (53, 48, 'Heat olive oil in a large paella pan. Brown chicken pieces, then remove. Add chorizo slices and cook until crispy. Add onion, bell peppers, and garlic. Add rice and stir to coat. Add saffron, paprika, and tomato sauce. Pour in chicken broth and boil. Arrange chicken, shrimp, and mussels on top. Simmer uncovered 25-30 minutes. Add peas in last 5 minutes. Let rest. Garnish with lemon and parsley.');
 
--- --------------------------------------------------------
 
---
+
 -- Table structure for table `RECIPES`
---
+
 
 CREATE TABLE `RECIPES` (
   `recipe_id` int(11) NOT NULL,
@@ -259,9 +250,9 @@ CREATE TABLE `RECIPES` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
+
 -- Dumping data for table `RECIPES`
---
+
 
 INSERT INTO `RECIPES` (`recipe_id`, `created_by_admin_id`, `recipe_name`, `preparation_time`, `cooking_time`, `cuisine_type`, `meal_type`, `is_vegan`, `is_vegetarian`, `is_gluten_free`, `is_dairy_free`, `created_at`) VALUES
 (1, NULL, 'Vegetarian Lasagna', 45, 30, 'Italian', 'Dinner', 0, 1, 0, 0, '2025-11-30 20:27:14'),
@@ -296,11 +287,11 @@ INSERT INTO `RECIPES` (`recipe_id`, `created_by_admin_id`, `recipe_name`, `prepa
 (34, 101, 'Chicken Alfredo Pasta', 30, 25, 'Italian', 'Dinner', 0, 0, 0, 0, '2025-12-11 01:04:00'),
 (48, 101, 'Spanish Paella', 45, 40, 'Spanish', 'Dinner', 0, 0, 1, 1, '2025-12-11 01:04:31');
 
--- --------------------------------------------------------
 
---
+
+
 -- Table structure for table `RECIPE_INGREDIENTS`
---
+
 
 CREATE TABLE `RECIPE_INGREDIENTS` (
   `recipe_ingredient_id` int(11) NOT NULL,
@@ -310,9 +301,9 @@ CREATE TABLE `RECIPE_INGREDIENTS` (
   `unit` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
+
 -- Dumping data for table `RECIPE_INGREDIENTS`
---
+
 
 INSERT INTO `RECIPE_INGREDIENTS` (`recipe_ingredient_id`, `recipe_id`, `ingredient_id`, `quantity`, `unit`) VALUES
 (1, 1, 1, 12.00, 'sheets'),
@@ -579,11 +570,11 @@ INSERT INTO `RECIPE_INGREDIENTS` (`recipe_ingredient_id`, `recipe_id`, `ingredie
 (570, 48, 152, NULL, NULL),
 (571, 48, 2, NULL, NULL);
 
--- --------------------------------------------------------
 
---
+
+
 -- Table structure for table `SAVED_RECIPES`
---
+
 
 CREATE TABLE `SAVED_RECIPES` (
   `favourite_id` int(11) NOT NULL,
@@ -592,7 +583,6 @@ CREATE TABLE `SAVED_RECIPES` (
   `added_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
 
 --
 -- Table structure for table `USERS`
