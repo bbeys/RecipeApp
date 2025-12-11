@@ -613,7 +613,9 @@ CREATE TABLE `USERS` (
 --
 
 INSERT INTO `USERS` (`user_id`, `first_name`, `last_name`, `email`, `password_hash`, `created_at`, `last_login`) VALUES
-(4, 'Sara', 'Chen', 'sara@example.com', 'sarapass', '2025-11-30 20:21:01', NULL);
+(1, 'Sara', 'Chen', 'sara@example.com', 'sarapass', '2025-11-30 20:21:01', NULL),
+(2, 'Jay', 'Lo', 'jaylo@mail.com', 'jaypass', '2025-11-30 20:21:01', NULL),
+(3, 'West', 'Hill', 'semp4@icloud.com', 'westpass', '2025-11-30 20:21:01', NULL);
 
 --
 -- Indexes for dumped tables
@@ -720,7 +722,7 @@ ALTER TABLE `SAVED_RECIPES`
 -- AUTO_INCREMENT for table `USERS`
 --
 ALTER TABLE `USERS`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
